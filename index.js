@@ -12,7 +12,6 @@ const resolution = new Resolution({
 const getAddress = async (domain, currency = 'ETH') => {
   try {
     const address = await resolution.address(domain, currency);
-    console.log(`${domain} resolves to ${address}`);
     return address;
   }
   catch(ex) {
@@ -22,9 +21,8 @@ const getAddress = async (domain, currency = 'ETH') => {
 
 const getUrl = async domain => {
   try {
-    const hash = resolution.ipfsHash(domain);
+    const hash = await resolution.ipfsHash(domain);
     const url = `${publicIPFSgateway}/${hash}`;
-    console.log(`${domain} redirects to ${url}`);
     return url;
   }
   catch(ex) {
@@ -34,9 +32,16 @@ const getUrl = async domain => {
 
 ((async () => {
   try {
-    let address2 = getAddress('creepto.crypto', 'ETH');
-    let url = getUrl('youdoyou.crypto');
-    let address1 = await getAddress('guy.wantsome.eth', 'ETH');
+    const ethDomains = ['creepto.crypto', 'guy.wantsome.eth'];
+    const domain ='youdoyou.crypto';
+
+    //get ETH addresses
+    const addresses = await Promise.all(ethDomains.map(address => getAddress(address, 'ETH')));
+    addresses.forEach((address, i) => console.log(`${ethDomains[i]} resolves to ${address}`));
+
+    //get IPFS url from domain
+    const url = await getUrl(domain);
+    console.log(`${domain} redirects to ${url}`);
   }
   catch(ex) {
     console.error(ex);

@@ -1,0 +1,15 @@
+{
+  "name": "resolution",
+  "version": "1.0.0",
+  "description": "resolve blockchain addresses and urls by domain",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@unstoppabledomains/resolution": "^1.5.2-beta.0",
+    "dotenv": "^8.2.0"
+  }
+}
